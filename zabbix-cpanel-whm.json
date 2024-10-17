@@ -1,0 +1,155 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "7df96b18c230490a9a0a9e2307226338",
+                "name": "Templates"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "3135bebaf23b4437b3b70a023237673e",
+                "template": "cPanel WHM",
+                "name": "cPanel WHM",
+                "groups": [
+                    {
+                        "name": "Templates"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "526554ecec3144aa9d6b572f0f77c19e",
+                        "name": "cPanel Account",
+                        "type": "TRAP",
+                        "key": "cpaccount",
+                        "delay": "0",
+                        "history": "90d",
+                        "description": "Total cPanel Account",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "cPanel"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "c65f289b0d57460ea5d7e1febd404f13",
+                        "name": "cPanel Account Backup",
+                        "type": "TRAP",
+                        "key": "cpacctbackup",
+                        "delay": "0",
+                        "history": "90d",
+                        "description": "cPanel Account Backup",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "cPanel"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "2c61d76b5be548c8af29eca6c224b854",
+                        "name": "cPanel Active Account",
+                        "type": "TRAP",
+                        "key": "cpactive",
+                        "delay": "0",
+                        "description": "cPanel Active Account",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "cPanel"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a4740ffc8bca4e1c8196d471a215dfbd",
+                        "name": "cPanel Reseller Account",
+                        "type": "TRAP",
+                        "key": "cpreseller",
+                        "delay": "0",
+                        "description": "cPanel Reseller Account",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "cPanel"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "17d4a61753ee4786b3f042fe6ef54a15",
+                        "name": "cPanel Suspended Account",
+                        "type": "TRAP",
+                        "key": "cpsuspended",
+                        "delay": "0",
+                        "description": "cPanel Suspended Account",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "cPanel"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "triggers": [
+            {
+                "uuid": "f7664b9742074dc1ac0927b7e4dec235",
+                "expression": "last(/cPanel WHM/cpacctbackup) < last(/cPanel WHM/cpaccount)",
+                "name": "Incomplete cpbackup: please check /root/bin/backupstatus.sh",
+                "opdata": "{ITEM.LASTVALUE1} /{ITEM.LASTVALUE2} account backup",
+                "priority": "WARNING"
+            }
+        ],
+        "graphs": [
+            {
+                "uuid": "76853c2f9a9b4d96a0ca0bd415572c5e",
+                "name": "cPanel Account",
+                "ymin_type_1": "FIXED",
+                "ymax_type_1": "ITEM",
+                "ymax_item_1": {
+                    "host": "cPanel WHM",
+                    "key": "cpaccount"
+                },
+                "graph_items": [
+                    {
+                        "color": "00FF00",
+                        "calc_fnc": "ALL",
+                        "item": {
+                            "host": "cPanel WHM",
+                            "key": "cpactive"
+                        }
+                    },
+                    {
+                        "sortorder": "1",
+                        "color": "0040FF",
+                        "calc_fnc": "ALL",
+                        "item": {
+                            "host": "cPanel WHM",
+                            "key": "cpreseller"
+                        }
+                    },
+                    {
+                        "sortorder": "2",
+                        "color": "FF0000",
+                        "calc_fnc": "ALL",
+                        "item": {
+                            "host": "cPanel WHM",
+                            "key": "cpsuspended"
+                        }
+                    },
+                    {
+                        "sortorder": "3",
+                        "color": "FFBF00",
+                        "calc_fnc": "ALL",
+                        "item": {
+                            "host": "cPanel WHM",
+                            "key": "cpacctbackup"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
